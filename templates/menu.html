@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Menu - XYZ Restaurant</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #333;
+            min-height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%23111" width="1200" height="800"/><g transform="translate(100,120)"><ellipse cx="30" cy="25" rx="20" ry="10" fill="%23c44536" opacity="0.8"/><circle cx="35" cy="20" r="3" fill="%23fff" opacity="0.6"/><rect x="0" y="40" width="8" height="50" fill="%23cd853f"/><circle cx="4" cy="95" r="6" fill="%23228b22" opacity="0.7"/></g><g transform="translate(300,200)"><circle cx="0" cy="0" r="12" fill="%23ff6347" opacity="0.9"/><circle cx="5" cy="-3" r="8" fill="%23ff4500"/><circle cx="15" cy="10" r="5" fill="%23dc143c" opacity="0.8"/></g><g transform="translate(500,150)"><rect x="0" y="0" width="60" height="6" fill="%23daa520" rx="3"/><rect x="65" y="-2" width="12" height="10" fill="%23b8860b" rx="2"/></g><g transform="translate(700,300)"><ellipse cx="0" cy="0" rx="25" ry="12" fill="%23228b22" opacity="0.8"/><ellipse cx="5" cy="-2" rx="20" ry="8" fill="%2332cd32"/><circle cx="10" cy="-4" r="2" fill="%2390ee90"/></g><g transform="translate(900,180)"><circle cx="0" cy="0" r="20" fill="%23654321" opacity="0.9"/><circle cx="5" cy="-3" r="15" fill="%238b4513"/><ellipse cx="0" cy="0" rx="12" ry="6" fill="%23a0522d" opacity="0.7"/></g><g transform="translate(200,450)"><rect x="0" y="0" width="10" height="70" fill="%23c0c0c0" rx="5"/><rect x="15" y="5" width="4" height="60" fill="%23a9a9a9" rx="2"/><circle cx="5" cy="-8" r="8" fill="%23228b22" opacity="0.6"/></g><g transform="translate(800,500)"><circle cx="0" cy="0" r="8" fill="%23ff6347" opacity="0.8"/><circle cx="12" cy="3" r="6" fill="%23ff4500"/><circle cx="6" cy="15" r="4" fill="%23dc143c" opacity="0.7"/></g><g transform="translate(400,600)"><ellipse cx="0" cy="0" rx="30" ry="8" fill="%23daa520" opacity="0.8"/><ellipse cx="5" cy="-2" rx="25" ry="6" fill="%23b8860b"/></g><g transform="translate(600,400)"><circle cx="0" cy="0" r="2" fill="%23fff" opacity="0.5"/><circle cx="15" cy="8" r="1.5" fill="%23fff" opacity="0.6"/><circle cx="30" cy="-5" r="2.5" fill="%23fff" opacity="0.4"/><circle cx="45" cy="12" r="1" fill="%23fff" opacity="0.7"/></g></svg>');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 50px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+            animation: slideUp 1s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #c44536, #ff6b35, #f7931e, #ff6b35, #c44536);
+            background-size: 300% 100%;
+            animation: gradientFlow 4s ease-in-out infinite;
+        }
+
+        @keyframes gradientFlow {
+            0%, 100% { background-position: 0% 0%; }
+            50% { background-position: 100% 0%; }
+        }
+
+        h2 {
+            font-size: 3.5rem;
+            color: #2c2c2c;
+            text-align: center;
+            margin-bottom: 50px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            position: relative;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #c44536, #ff6b35);
+            border-radius: 2px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .menu-section {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            border: 2px solid rgba(196, 69, 54, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            border-color: rgba(196, 69, 54, 0.3);
+        }
+
+        .menu-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #c44536, transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .menu-section:hover::before {
+            opacity: 1;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #c44536;
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-align: center;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 2px;
+            background: #ff6b35;
+            border-radius: 1px;
+        }
+
+        .menu-items {
+            list-style: none;
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(196, 69, 54, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item:hover {
+            background: rgba(196, 69, 54, 0.05);
+            padding-left: 10px;
+            border-radius: 10px;
+        }
+
+        .item-info {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+
+        .item-emoji {
+            font-size: 1.5rem;
+            margin-right: 15px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+
+        .item-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin-right: 10px;
+        }
+
+        .item-description {
+            font-size: 0.9rem;
+            color: #666;
+            font-style: italic;
+            margin-left: 5px;
+        }
+
+        .item-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #c44536;
+            background: rgba(196, 69, 54, 0.1);
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid rgba(196, 69, 54, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .menu-item:hover .item-price {
+            background: #c44536;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .special-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: linear-gradient(135deg, #ff6b35, #c44536);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            box-shadow: 0 5px 15px rgba(196, 69, 54, 0.3);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .veg-icon {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background: #228b22;
+            border-radius: 2px;
+            margin-right: 8px;
+        }
+
+        .non-veg-icon {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background: #dc143c;
+            border-radius: 2px;
+            margin-right: 8px;
+        }
+
+        .chef-special {
+            position: relative;
+        }
+
+        .chef-special::before {
+            content: '👨‍🍳';
+            position: absolute;
+            right: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+                margin: 10px;
+            }
+            
+            h2 {
+                font-size: 2.5rem;
+            }
+            
+            .menu-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .menu-section {
+                padding: 25px 20px;
+            }
+            
+            .menu-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .item-price {
+                align-self: flex-end;
+            }
+        }
+
+        .floating-spices {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .spice {
+            position: absolute;
+            opacity: 0.1;
+            font-size: 1.5rem;
+            animation: floatSpice 8s ease-in-out infinite;
+        }
+
+        .spice:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+        .spice:nth-child(2) { top: 20%; right: 10%; animation-delay: 2s; }
+        .spice:nth-child(3) { bottom: 30%; left: 8%; animation-delay: 4s; }
+        .spice:nth-child(4) { bottom: 15%; right: 5%; animation-delay: 6s; }
+
+        @keyframes floatSpice {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.1; }
+            25% { transform: translateY(-20px) rotate(90deg); opacity: 0.2; }
+            50% { transform: translateY(-30px) rotate(180deg); opacity: 0.15; }
+            75% { transform: translateY(-15px) rotate(270deg); opacity: 0.25; }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-spices">
+        <div class="spice">🌶️</div>
+        <div class="spice">🧄</div>
+        <div class="spice">🧅</div>
+        <div class="spice">🌿</div>
+    </div>
+
+    <div class="container">
+        <h2>Our Menu</h2>
+        
+        <div class="menu-grid">
+            <!-- Vegetarian Section -->
+            <div class="menu-section">
+                <h3 class="section-title">🌱 Vegetarian Delights</h3>
+                <ul class="menu-items">
+                    <li class="menu-item">
+                        <div class="item-info">
+                            <span class="item-emoji">🍕</span>
+                            <span class="veg-icon"></span>
+                            <span class="item-name">Margherita Pizza</span>
+                            <span class="item-description">- Fresh basil & mozzarella</span>
+                        </div>
+                        <span class="item-price">₹858</span>
+                    </li>
+                    <li class="menu-item">
+                        <div class="item-info">
+                            <span class="item-emoji">🍝</span>
+                            <span class="veg-icon"></span>
+                            <span class="item-name">Penne Arrabbiata</span>
+                            <span class="item-description">- Spicy tomato pasta</span>
+                        </div>
+                        <span class="item-price">₹1,030</span>
+                    </li>
+                    <li class="menu-item">
+                        <div class="item-info">
+                            <span class="item-emoji">🥗</span>
+                            <span class="veg-icon"></span>
+                            <span class="item-name">Mediterranean Salad</span>
+                            <span class="item-description">- Olives, feta & herbs</span>
+                        </div>
+                        <span class="item-price">₹686</span>
+                    </li>
+                    <li class="menu-item chef-special">
+                        <div class="item-info">
+                            <span class="item-emoji">🍛</span>
+                            <span class="veg-icon"></span>
+                            <span class="item-name">Paneer Butter Masala</span>
+                            <span class="item-description">- Rich creamy curry</span>
+                        </div>
+                        <span class="item-price">₹945</span>
+                        <span class="special-badge">Chef's Special</span>
+                    </li>
+                    <li class="menu-item">
+                        <div class="item-info">
+                            <span class="item-emoji">🫕</span>
+                            <span class="veg-icon"></span>
+                            <span class="item-name">Dal Tadka</span>
+                            <span class="item-description">- Tempered lentils</span>
+                        </div>
+                        <span class="item-price">₹515</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Non-Vegetarian Section -->
+            <div class="menu-section">
+                <h3 class="section-title">🍖 Non-Vegetarian Specials</h3>
+                <ul class="menu-items">
+                    <li class="menu-item">
+                        <div class="item-info">
+                            <span class="item-emoji">🍔</span>
+                            <span class="non-veg-icon"></span>
+                            <span class="item-name">Chicken Burger</span>
+                            <span class="item-description">- Lettuce, tomato, cheese</span>
+                        </div>
+                        <span class="item-price">₹773</span>
+                    </li>
+                    <li class="menu-item chef-special">
+                        <div class="item-info">
+                            <span class="item-emoji">🍗</span>
+                            <span class="non-veg-icon"></span>
+                            <span class="item-name">Butter Chicken</span>
+                            <span class="item-description">- Creamy tomato curry</span>
+                        </div>
+                        <span class="item-price">₹1,200</span>
+                        <span class="special-badge">Popular</span>
+                    </li>
+                    <li class="menu-item">
+                        <div class="item-info">
+                            <span class="item-emoji">🐟</span>
+                            <span class="non-veg-icon"></span>
+                            <span class="item-name">Grilled Salmon</span>
+                            <span class="item-description">- Lemon herb seasoning</span>
+                        </div>
+                        <span class="item-price">₹1,545</span>
+                    </li>
+                    <li class="menu-item">
+                        <div class="item-info">
+                            <span class="item-emoji">🍖</span>
+                            <span class="non-veg-icon"></span>
+                            <span class="item-name">Mutton Biryani</span>
+                            <span class="item-description">- Aromatic rice & spices</span>
+                        </div>
+                        <span class="item-price">₹1,375</span>
+                    </li>
+                    <li class="menu-item">
+                        <div class="item-info">
+                            <span class="item-emoji">🍤</span>
+                            <span class="non-veg-icon"></span>
+                            <span class="item-name">Prawn Curry</span>
+                            <span class="item-description">- Coconut based gravy</span>
+                        </div>
+                        <span class="item-price">₹1,115</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Desserts & Ice Cream -->
+            <div class="menu-section">
+                <h3 class="section-title">🍰 Sweet Treats</h3>
+                <ul class="menu-items">
+                    <li class="menu-item">
+                        <div class="item-info">
+                            <span class="item-emoji">🍰</span>
+                            <span class="veg-icon"></span>
+                            <span class="item-name">Chocolate Lava Cake</span>
+                            <span class="item-description">- Warm molten center</span>
+                        </div>
+                        <span class="item-price">₹515</span>
+                    </li>
+                    <li class="menu-item">
+                        <div class="item-info">
+                            <span class="item-emoji">🍦</span>
+                            <span class="veg-icon"></span>
+                            <span class="item-name">Vanilla Ice Cream</span>
+                            <span class="item-description">- Premium Madagascar vanilla</span>
+                        </div>
+                        <span class="item-price">₹315</span>
+                    </li>
+                    <li class="menu-item">
+                        <div class="item-info">
+                            <span class="item-emoji">🍨</span>
+                            <span class="veg-icon"></span>
+                            <span class="item-name">Kulfi Sundae</span>
+                            <span class="item-description">- Traditional Indian dessert</span>
+                        </div>
+                        <span class="item-price">₹430</span>
+                    </li>
+                    <li class="menu-item chef-special">
+                        <div class="item-info">
+                            <span class="item-emoji">🧁</span>
+                            <span class="veg-icon"></span>
+                            <span class="item-name">Tiramisu</span>
+                            <span class="item-description">- Italian coffee dessert</span>
+                        </div>
+                        <span class="item-price">₹645</span>
+                        <span class="special-badge">Signature</span>
+                    </li>
+                    <li class="menu-item">
+                        <div class="item-info">
+                            <span class="item-emoji">🍮</span>
+                            <span class="veg-icon"></span>
+                            <span class="item-name">Gulab Jamun</span>
+                            <span class="item-description">- Sweet milk dumplings</span>
+                        </div>
+                        <span class="item-price">₹385</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Beverages -->
+            <div class="menu-section">
+                <h3 class="section-title">🥤 Beverages</h3>
+                <ul class="menu-items">
+                    <li class="menu-item">
+                        <div class="item-info">
+                            <span class="item-emoji">☕</span>
+                            <span class="veg-icon"></span>
+                            <span class="item-name">Cappuccino</span>
+                            <span class="item-description">- Italian coffee classic</span>
+                        </div>
+                        <span class="item-price">₹285</span>
+                    </li>
+                    <li class="menu-item">
+                        <div class="item-info">
+                            <span class="item-emoji">🧃</span>
+                            <span class="veg-icon"></span>
+                            <span class="item-name">Fresh Orange Juice</span>
+                            <span class="item-description">- Freshly squeezed</span>
+                        </div>
+                        <span class="item-price">₹215</span>
+                    </li>
+                    <li class="menu-item">
+                        <div class="item-info">
+                            <span class="item-emoji">🥤</span>
+                            <span class="veg-icon"></span>
+                            <span class="item-name">Mango Lassi</span>
+                            <span class="item-description">- Yogurt based drink</span>
+                        </div>
+                        <span class="item-price">₹245</span>
+                    </li>
+                    <li class="menu-item">
+                        <div class="item-info">
+                            <span class="item-emoji">🍵</span>
+                            <span class="veg-icon"></span>
+                            <span class="item-name">Masala Chai</span>
+                            <span class="item-description">- Spiced Indian tea</span>
+                        </div>
+                        <span class="item-price">₹145</span>
+                    </li>
+                    <li class="menu-item chef-special">
+                        <div class="item-info">
+                            <span class="item-emoji">🍹</span>
+                            <span class="veg-icon"></span>
+                            <span class="item-name">Virgin Mojito</span>
+                            <span class="item-description">- Mint & lime refresher</span>
+                        </div>
+                        <span class="item-price">₹315</span>
+                        <span class="special-badge">Refreshing</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
